@@ -25,7 +25,7 @@ java -jar CsvGenerator.jar <Numeber Of lines> <csv file loction including name>
 ```
 CsvParser
 -----
-Ensure your MySQL database is started, the script below can be used to set up the table Person
+Ensure your MySQL database is started, the script below can be used to set up the table Person.
 ```
 create_table.sql 
 ```
@@ -33,7 +33,7 @@ create_table.sql
 
 To run CsvParser.jar:
 ```
-java -jar CsvParser.jar <csv file loction including name> jdbc:mysql://localhost:3306/csv_generator_parser
+java -jar CsvParser.jar <csv file loction including name> jdbc:mysql://localhost:3306/<database name>
 ```
 
 Performance
