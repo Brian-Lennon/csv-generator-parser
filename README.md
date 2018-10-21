@@ -38,10 +38,39 @@ java -jar CsvParser.jar <csv file loction including name> jdbc:mysql://localhost
 
 Performance
 -----
-Some of the issues with performance are the delay in uploading the list of person object into the database, 
-this could be solve with both batching of statements and uses of threads. What could improve this further 
-is it could be designed using JPA (Jave Persistence API). This will allow objects to be mapped in the database, 
-it also hides alot of the SQL from the developer. Other performance impacts are located around the writing to csv again.
+Some of the issues with performance are the delay in uploading the list of person objects into the database, 
+this could be solved with both batching of statements and uses of threads. What could improve this further 
+is it could be designed using JPA (Java Persistence API). This will allow objects to be mapped in the database, 
+it also hides a lot of the SQL from the developer, it allows for batching of statements into transactions.
+An example of this is: 
+
+```
+EntityManager entityManager = entityManagerFactory()
+    .createEntityManager();
+     
+EntityTransaction entityTransaction = entityManager
+    .getTransaction();
+ 
+try {
+    entityTransaction.begin();
+ 
+    for (int i = 0; i < entityCount; i++) {
+        if (i > 0 && i % batchSize == 0) {
+            entityTransaction.commit();
+            entityTransaction.begin();
+ 
+            entityManager.clear();
+        }
+ 
+        //Create Your object
+         
+        entityManager.persist(YourObeject);
+    }
+ 
+    entityTransaction.commit();
+```
+
+Other performance impacts are located around the writing to csv.
 
 One option is to use:
 ```
